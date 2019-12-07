@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: spinnaker-demo-config
+  name: spinnaker-demo-config-urs
   namespace: default
 data:
   NEW_FEATURE: "true"
@@ -11,23 +11,23 @@ data:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: spinnaker-demo
+  name: spinnaker-demo-urs
   namespace: default
   labels:
-    source: demo
-    stack: frontend
-    app: spinnaker
+    source: demo-urs
+    stack: frontend-urs
+    app: spinnaker-urs
 spec:
   replicas: 3
   selector:
     matchLabels:
-      source: demo
-      app: spinnaker
+      source: demo-urs
+      app: spinnaker-urs
   template:
     metadata:
       labels:
-        source: demo
-        app: spinnaker
+        source: demo-urs
+        app: spinnaker-urs
     spec:
       containers:
       - name: primary
@@ -40,19 +40,19 @@ spec:
             port: 8000
         envFrom:
         - configMapRef:
-            name: spinnaker-demo-config
+            name: spinnaker-demo-config-urs
 
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
-  name: spinnaker-demo
+  name: spinnaker-demo-urs
   namespace: default
 spec:
   selector:
-    source: demo
-    app: spinnaker
+    source: demo-urs
+    app: spinnaker-urs
   ports:
   - protocol: TCP
     port: 80
